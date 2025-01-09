@@ -1,8 +1,8 @@
 import React from 'react'
-// import LoginForm from './pages/Login'
-// import HomePage from './pages/Homepage';
+import LoginForm from './pages/Login'
+import HomePage from './pages/HomePage';
 // import Navbar from './components/Navbar';
-import CardProduct from './components/CardProduct';
+// import CardProduct from './components/CardProduct';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App: React.FC = () => {
@@ -10,10 +10,10 @@ const App: React.FC = () => {
     <>
       <Router>
         <Routes>
-          {/* <Route path='/' element={<LoginForm />}/>
-          <Route path='/homepage' element={<HomePage />}/> */}
+          <Route path='/' element={<LoginForm />}/>
+          <Route path='/homepage' element={<HomePage />}/>
           {/* <Route path='/' element={<Navbar />}/> */}
-          <Route path='/' element={<CardProduct />} />
+          {/* <Route path='/' element={<CardProduct />} /> */}
         </Routes>
       </Router>
     </>

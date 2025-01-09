@@ -1,5 +1,6 @@
+import { fetchLoginUser } from '@/services/LoginApi';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Importing the useNavigate hook
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -15,34 +16,12 @@ const LoginForm: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://api.escuelajs.co/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Invalid credentials or server error');
-      }
-
-      const data = await response.json();
-      // Get Token
-      const token = data.access_token;
-
-      // Store the token in localStorage
+      const token = await fetchLoginUser(email, password);
       localStorage.setItem('authToken', token);
-
-      console.log('Login successful:', data);
-      alert('Login successful!');
-      navigate('/homepage');
       
+      navigate('/homepage');
     } catch (err) {
-      setError((err as Error).message);
+      setError('Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchProduct } from '../services/ProductApi'; // Import fungsi fetchProduct
+import { fetchProduct } from '../services/ProductApi';
 
 interface Product {
   id: number;
@@ -38,6 +38,8 @@ const Card: React.FC = () => {
   }
 
   return (
+    <>
+    
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
       {/* Render produk di dalam card */}
       {products.map((product) => (
@@ -72,6 +74,7 @@ const Card: React.FC = () => {
         </div>
       ))}
     </div>
+    </>
   );
 };
 
