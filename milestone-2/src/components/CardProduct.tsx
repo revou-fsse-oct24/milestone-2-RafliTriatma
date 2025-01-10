@@ -41,13 +41,13 @@ const Card: React.FC = () => {
     <>
     
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-      {/* Render produk di dalam card */}
+      {/* Renderin Product in Card */}
       {products.map((product) => (
+        
         <div
           key={product.id}
           className="w-full h-[400px] flex flex-col border border-gray-300 rounded-lg shadow-lg overflow-hidden"
         >
-          {/* Gambar produk */}
           <img
             src={product.images[0]}
             alt={product.title}
@@ -55,10 +55,7 @@ const Card: React.FC = () => {
           />
 
           <div className="flex flex-col p-4 flex-1">
-            {/* Judul produk */}
             <h3 className="text-xl font-semibold text-gray-800 truncate">{product.title}</h3>
-
-            {/* Deskripsi produk*/}
             <p className="mt-2 text-sm text-gray-600 line-clamp-3">
               {product.description}
             </p>
