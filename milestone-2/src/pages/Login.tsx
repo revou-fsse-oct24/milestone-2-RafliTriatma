@@ -1,6 +1,6 @@
-import { fetchLoginUser } from '@/services/LoginApi';
+import { fetchDataWithAuth } from '@/services/LoginApi';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -16,12 +16,12 @@ const LoginForm: React.FC = () => {
     setLoading(true);
 
     try {
-      const token = await fetchLoginUser(email, password);
+      const token = await fetchDataWithAuth(email, password);
       localStorage.setItem('authToken', token);
       
       navigate('/homepage');
-    } catch (err) {
-      setError('Login failed. Please check your credentials.');
+    } catch (error) {
+      setError('Login failed');
     } finally {
       setLoading(false);
     }

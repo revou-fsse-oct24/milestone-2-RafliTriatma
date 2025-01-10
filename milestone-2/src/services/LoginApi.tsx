@@ -1,25 +1,25 @@
 import axios from 'axios';
 
-// URL API
 const API_URL = 'https://api.escuelajs.co/api/v1/auth/login';
 
-// Fungsi untuk login
-export const fetchLoginUser = async (email: string, password: string) => {
-  try {
-    // Mengirimkan data login ke API
-    const response = await axios.post(API_URL, {
-      email: email,
-      password: password,
-    });
+export const fetchDataWithAuth = async (email: String, password: String) => {
+    try {
+        const response = await axios.post(API_URL, {
+          email,
+          password,
+        });
+    
+        // Mendapatkan access_token dari respons
+        const accessToken = response.data.access_token;
+    
+        // Menyimpan token ke localStorage
+        localStorage.setItem('authToken', accessToken);
+    
+        // Mengembalikan token
+        return accessToken;
+      } catch (error) {
+        console.error('Error during login:', error);
+        throw error;
+      }
+    };
 
-    // Jika request berhasil, kita ambil token dan kembalikan
-    return response.data.access_token;
-  } catch (error) {
-    // Menangani error jika ada
-    if (axios.isAxiosError(error)) {
-      return Promise.reject(error.response?.data || 'Login failed');
-    } else {
-      return Promise.reject('Unexpected error');
-    }
-  }
-};

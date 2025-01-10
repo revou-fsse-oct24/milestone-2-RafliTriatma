@@ -55,7 +55,6 @@ const Navbar: React.FC = () => {
             {/* Menampilkan informasi pengguna jika sudah login */}
             {!loading && user ? (
               <div className="flex items-center gap-4">
-                {/* Jika user ada, tampilkan nama pengguna dan avatar */}
                 <span className="text-white">{user.name}</span>
                 <img src={user.avatar} alt="Avatar" className="w-8 h-8 rounded-full" />
                 <button
