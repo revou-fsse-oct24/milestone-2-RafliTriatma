@@ -1,9 +1,19 @@
+import Navbar from '@/components/Navbar';
+import CardProduct from '@/components/CardProduct'
 import React from 'react';
 
-const HomePage: React.FC = () => {
+const Homepage: React.FC = () => {
   return (
-    <div>HomePage</div>
+    <>
+      <nav>
+        <Navbar />
+      </nav>
+      <div>
+        <CardProduct />
+      </div>
+
+    </>
   )
 }
 
-export default HomePage;
+export default Homepage

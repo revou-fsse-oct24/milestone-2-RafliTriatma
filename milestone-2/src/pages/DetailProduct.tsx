@@ -8,7 +8,7 @@ interface ProductData {
   images: string[];
 }
 
-const API_URL = 'https://api.escuelajs.co/api/v1/products/4';
+const API_URL = 'https://api.escuelajs.co/api/v1/products/1';
 
 const DetailProduct: React.FC = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
