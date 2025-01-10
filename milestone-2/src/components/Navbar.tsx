@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('authToken');
-    navigate('/LoginForm');
+    navigate('/login');
   };
 
   return (
