@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchProduct } from '../services/ProductApi';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   id: number;
@@ -13,6 +14,7 @@ const Card: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -28,6 +30,21 @@ const Card: React.FC = () => {
 
     getProducts();
   }, []);
+
+  const addToCart = (product: Product) => {
+    // Check if there's an existing cart in localStorage
+    const existingCart = localStorage.getItem('cart');
+    const cart = existingCart ? JSON.parse(existingCart) : [];
+
+    // Add new product to cart
+    cart.push(product);
+
+    // Save updated cart in localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Navigate to cart page
+    navigate('/cart');
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -64,7 +81,9 @@ const Card: React.FC = () => {
             <p className="mt-2 text-lg font-bold text-gray-900">${product.price}</p>
 
             {/* Tombol (optional) */}
-            <button className="mt-auto w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500">
+            <button 
+            onClick={() => addToCart(product)}
+            className="mt-auto w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500">
               Add to Cart
             </button>
           </div>

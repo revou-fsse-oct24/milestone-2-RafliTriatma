@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 // import Navbar from './components/Navbar';
 // import CardProduct from './components/CardProduct';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Cart from './pages/Cart';
 // import DetailProduct from './pages/DetailProduct';
 
 const App: React.FC = () => {
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           {/* <Route path='/' element={<Navbar />}/> */}
           {/* <Route path='/' element={<CardProduct />} /> */}
           {/* <Route path='/' element={<DetailProduct/>}/> */}
+          <Route path='/cart' element={<Cart />} />
         </Routes>
       </Router>
     </>
