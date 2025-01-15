@@ -1,6 +1,6 @@
 import { fetchDataWithAuth } from '@/services/LoginApi';
 import React, { useState } from 'react';
-import { data, useNavigate } from 'react-router-dom';
+import { data, useNavigate, Link } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -99,6 +99,12 @@ const LoginForm: React.FC = () => {
               </button>
             </div>
           </form>
+            
+            <p className="mt-10 text-center text-sm/6 text-gray-500">
+              Didn't Have Account ?
+              <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">Register</Link>
+            </p>
+
         </div>
       </div>
     </>
