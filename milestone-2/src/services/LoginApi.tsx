@@ -9,13 +9,13 @@ export const fetchDataWithAuth = async (email: String, password: String) => {
           password,
         });
     
-        // Mendapatkan access_token dari respons
+        // Adding Access Token
         const accessToken = response.data.access_token;
     
-        // Menyimpan token ke localStorage
+        // Save to Local Storage
         localStorage.setItem('authToken', accessToken);
     
-        // Mengembalikan token
+        // Callback Token
         return accessToken;
       } catch (error) {
         console.error('Error during login:', error);

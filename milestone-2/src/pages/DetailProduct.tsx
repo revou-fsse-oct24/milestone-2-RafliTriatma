@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 interface Product {
   id: number;
@@ -14,22 +14,33 @@ const DetailProduct: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductDetail = async () => {
       if (!id) return;
 
       try {
-        const response = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`);
-        
+        console.log(`Fetching product details for ID: ${id}`);
+        const productId = Number(id);
+        if (isNaN(productId)) {
+          setError('Invalid product ID');
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`https://api.escuelajs.co/api/v1/products/${productId}`);
+
         if (!response.ok) {
           throw new Error('Product not found');
         }
-        
+
         const data: Product = await response.json();
+        console.log('Product data:', data);
         setProduct(data);
-      } catch (error: any) {
-        setError(error.message || 'Error fetching product details');
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Error fetching product details';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -37,13 +48,24 @@ const DetailProduct: React.FC = () => {
 
     fetchProductDetail();
   }, [id]);
+  
+  const addToCart = (product: Product) => {
+    const existingCart = localStorage.getItem('cart');
+    const cart = existingCart ? JSON.parse(existingCart) : [];
+
+    cart.push(product);
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    navigate('/cart');
+  };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen"><span>Loading...</span></div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
+    return <div>{error}</div>;
   }
 
   return (
@@ -51,7 +73,7 @@ const DetailProduct: React.FC = () => {
       {product && (
         <div className="max-w-md w-full bg-white shadow-md rounded-lg overflow-hidden">
           <img
-            src={product.images[0] || 'fallback-image-url.jpg'} // Fallback image
+            src={product.images[0] || 'fallback-image-url.jpg'}
             alt={product.title}
             className="w-full h-64 object-cover"
           />
@@ -60,6 +82,15 @@ const DetailProduct: React.FC = () => {
             <p className="mt-2 text-gray-600">{product.description}</p>
             <p className="mt-4 text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
           </div>
+          <button 
+              onClick={(e) => {
+                e.stopPropagation(); 
+                addToCart(product);
+              }}
+              className="mt-auto w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500"
+            >
+              Add to Cart
+            </button>
         </div>
       )}
     </div>

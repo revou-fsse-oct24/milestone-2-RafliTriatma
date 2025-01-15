@@ -32,18 +32,18 @@ const Card: React.FC = () => {
   }, []);
 
   const addToCart = (product: Product) => {
-    // Check if there's an existing cart in localStorage
     const existingCart = localStorage.getItem('cart');
     const cart = existingCart ? JSON.parse(existingCart) : [];
 
-    // Add new product to cart
     cart.push(product);
 
-    // Save updated cart in localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
 
-    // Navigate to cart page
     navigate('/cart');
+  };
+
+  const handleCardClick = (productId: number) => {
+    navigate(`/products/${productId}`);
   };
 
   if (loading) {
@@ -55,15 +55,12 @@ const Card: React.FC = () => {
   }
 
   return (
-    <>
-    
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-      {/* Renderin Product in Card */}
       {products.map((product) => (
-        
         <div
           key={product.id}
-          className="w-full h-[400px] flex flex-col border border-gray-300 rounded-lg shadow-lg overflow-hidden"
+          className="w-full h-[400px] flex flex-col border border-gray-300 rounded-lg shadow-lg overflow-hidden cursor-pointer"
+          onClick={() => handleCardClick(product.id)}
         >
           <img
             src={product.images[0]}
@@ -77,20 +74,23 @@ const Card: React.FC = () => {
               {product.description}
             </p>
 
-            {/* Harga produk */}
+            {/* Product Price */}
             <p className="mt-2 text-lg font-bold text-gray-900">${product.price}</p>
 
-            {/* Tombol (optional) */}
+            {/* Add to Cart Button */}
             <button 
-            onClick={() => addToCart(product)}
-            className="mt-auto w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500">
+              onClick={(e) => {
+                e.stopPropagation(); 
+                addToCart(product);
+              }}
+              className="mt-auto w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500"
+            >
               Add to Cart
             </button>
           </div>
         </div>
       ))}
     </div>
-    </>
   );
 };
 

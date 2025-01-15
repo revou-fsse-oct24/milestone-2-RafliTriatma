@@ -7,14 +7,13 @@ interface Product {
   description: string;
   price: number;
   images: string[];
-  quantity: number;  // Menambahkan properti quantity
+  quantity: number;
 }
 
 const Cart: React.FC = () => {
   const [cart, setCart] = useState<Product[]>([]);
   const navigate = useNavigate();
 
-  // Mengambil cart dari localStorage ketika halaman dimuat
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -22,7 +21,6 @@ const Cart: React.FC = () => {
     }
   }, []);
 
-  // Menambah quantity produk
   const increaseQuantity = (id: number) => {
     const updatedCart = cart.map((product) =>
       product.id === id ? { ...product, quantity: product.quantity + 1 } : product
@@ -31,7 +29,6 @@ const Cart: React.FC = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  // Mengurangi quantity produk
   const decreaseQuantity = (id: number) => {
     const updatedCart = cart.map((product) =>
       product.id === id && product.quantity > 1
@@ -42,16 +39,13 @@ const Cart: React.FC = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  // Menghapus produk dari cart
   const removeFromCart = (id: number) => {
     const updatedCart = cart.filter((product) => product.id !== id);
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  // Fungsi untuk handle checkout
   const handleCheckout = () => {
-    // Untuk saat ini, hanya mengarahkan ke halaman checkout
     navigate('/checkout');
   };
 

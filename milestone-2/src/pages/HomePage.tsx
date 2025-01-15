@@ -1,51 +1,72 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import CardProduct from '@/components/CardProduct';
-import { Link } from 'react-router-dom';
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  images: string[];
+}
 
 const Homepage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  // Get API
+  // Fetch categories
   const fetchCategories = async () => {
     try {
       const response = await fetch('https://api.escuelajs.co/api/v1/categories');
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error('Failed to fetch categories');
+      }
+      const data: Category[] = await response.json();
       setCategories(data);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setError('Error fetching categories. Please try again later.');
     }
   };
 
-  // Get Product by Categories
+  // Fetch products by category
   const fetchProductsByCategory = async (categoryId: number | null) => {
     setLoading(true);
+    setError(null); // Reset error state
     try {
       const response = await fetch(
         categoryId
           ? `https://api.escuelajs.co/api/v1/products/?categoryId=${categoryId}`
           : 'https://api.escuelajs.co/api/v1/products'
       );
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      const data: Product[] = await response.json();
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setError('Error fetching products. Please try again later.');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProductsByCategory(selectedCategory);
-  }, [selectedCategory]);
-
-  // Rendering Get Categories
-  useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    fetchProductsByCategory(selectedCategory);
+  }, [selectedCategory]);
 
   const handleCategoryClick = (categoryId: number | null) => {
     if (selectedCategory === categoryId) {
@@ -63,18 +84,22 @@ const Homepage: React.FC = () => {
         <div className="flex justify-center gap-4 mt-4">
           {/* Display Categories */}
           {categories.map((category) => (
-            <Link
+            <button
               key={category.id}
-              to="#"
               onClick={() => handleCategoryClick(category.id)}
+              className={`p-2 rounded ${selectedCategory === category.id ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
             >
-              <span>{category.name}</span>
-            </Link>
+              {category.name}
+            </button>
           ))}
         </div>
 
         {loading ? (
-          <div>Loading...</div>
+          <div className="flex justify-center items-center h-64">
+            <span>Loading...</span>
+          </div>
+        ) : error ? (
+          <div className="text-red-500 text-center">{error}</div>
         ) : (
           <div className="mt-4">
             {products.length > 0 ? (

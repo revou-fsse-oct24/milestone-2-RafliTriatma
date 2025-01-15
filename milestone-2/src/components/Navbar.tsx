@@ -46,13 +46,13 @@ const Navbar: React.FC = () => {
           <h1 className='text-white'>LOGO</h1>
 
           <div className='flex flex-grow justify-center gap-6'>
-            {/* Tautan navigasi */}
+            {/* Text Link */}
             <Link to='/' className='text-white'>Home</Link>
             <Link to='/store' className='text-white'>Store</Link>
             <Link to='/cart' className='text-white'>Cart</Link>
             </div>
 
-            {/* Menampilkan informasi pengguna jika sudah login */}
+            {/* Display Information Login */}
             {!loading && user ? (
               <div className="flex items-center gap-4">
                 <span className="text-white">{user.name}</span>
@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <Link to="/login" className="text-white">Login</Link>
+              <Link to="/" className="text-white">Login</Link>
             )}
           
         </div>
