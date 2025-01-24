@@ -19,13 +19,10 @@ const Card: React.FC<CardProps> = ({ products }) => {
     const existingCart = localStorage.getItem('cart');
     const cart = existingCart ? JSON.parse(existingCart) : [];
 
-    // Check if product already exists in the cart
     const existingProductIndex = cart.findIndex((item: Product) => item.id === product.id);
     if (existingProductIndex !== -1) {
-      // Increase the quantity if the product already exists
       cart[existingProductIndex].quantity += 1;
     } else {
-      // Add a new product with quantity 1 if it does not exist
       cart.push({ ...product, quantity: 1 });
     }
 
