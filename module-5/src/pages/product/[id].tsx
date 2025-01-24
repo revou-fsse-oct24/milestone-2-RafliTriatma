@@ -77,7 +77,7 @@ const DetailProduct: React.FC = () => {
               <img
                 src={product.images[0] || 'fallback-image-url.jpg'}
                 alt={product.title}
-                className="w-full h-full object-cover"
+                className="w-full h-64 object-contain"
               />
             </div>
             <div className="p-4">

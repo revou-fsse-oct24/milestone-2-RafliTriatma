@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,11 +14,17 @@ const LoginForm = () => {
         email,
         password,
       });
-      console.log(response.data);
-      // handle success (e.g., store token, redirect user)
+
+      const { access_token } = response.data;
+
+      // Save token
+      document.cookie = `auth-token=${access_token}; path=/; max-age=86400;`;
+
+      // Redirect to the homepage
+      router.push('/homepage');
     } catch (error) {
-      console.error(error);
-      // handle error (e.g., show error message)
+      console.error('Login failed:', error);
+      alert('Invalid credentials');
     }
   };
 

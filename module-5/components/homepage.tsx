@@ -85,7 +85,7 @@ const Homepage: React.FC = () => {
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
               className={`p-2 rounded ${
-                selectedCategory === category.id ? 'bg-blue-500 text-indigo-500' : 'bg-gray-200'
+                selectedCategory === category.id ? 'bg-blue-500 text-white' : 'bg-gray-200'
               }`}
             >
               {category.name}
