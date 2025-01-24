@@ -7,7 +7,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  // Validate token (mock logic here, replace with actual validation)
+  // Validate token
   const isValid = token === 'valid-token'; // Replace with actual validation logic
   if (!isValid) {
     return res.status(401).json({ message: 'Invalid Token' });
