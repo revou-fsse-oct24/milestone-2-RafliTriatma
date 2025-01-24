@@ -21,7 +21,12 @@ cd milestone-2
 
 # Install dependencies
 npm instal
+
+# How to Run
+npm run dev
+
 ```
+
 
 ## Pages
 
